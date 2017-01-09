@@ -2,9 +2,21 @@
   "extends": "standard",
   "env": {
     "mocha": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "rules": {
-    "arrow-parens": [2, "as-needed"]
+    "arrow-parens": [2, "as-needed"],
+    "indent": [2, 4],
+    "quotes": [2, "single"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "no-trailing-spaces": 2,
+    "space-before-function-paren": [2, "always"],
+    "eqeqeq": [2, "allow-null"],
+    "no-console": 0,
+    "no-cond-assign": 0,
+    "no-extra-boolean-cast": 0,
+    "no-unused-vars": 0
   }
 }
