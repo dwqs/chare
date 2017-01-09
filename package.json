@@ -1,6 +1,6 @@
 {
   "name": "chare",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple CLI for scaffolding Vue.js projects.",
   "preferGlobal": true,
   "bin": {
@@ -63,6 +63,6 @@
     "mocha": "^2.4.5"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=5.0.0"
   }
 }

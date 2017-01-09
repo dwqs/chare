@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+let yargs = require('yargs');
+
+let pkg = require('../package.json');
+
+console.log('chare',pkg.version)
+
+yargs
+    .version(() => pkg.version)
+    .alias('v', 'version')
+    .usage('Usage: chare <command> [options]')
+    .command('init', 'generate a new project from a template')
+    //.example('init', 'chare init webpack')
+    .command('list', 'list available official templates')
+    .help('help')
+    .alias('h', 'help')
+    .epilogue('for more information, visit https://github.com/dwqs/chare')
+    .parse(process.argv)
+
