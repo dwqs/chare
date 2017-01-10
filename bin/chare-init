@@ -114,7 +114,7 @@ function downloadAndGenerate (template){
 
         generate(projectName,tmp,projectDirPath, (err) => {
             if(err){
-                log.error(err);
+                log.error('Generated error "%s"',err);
             }
         });
     });
