@@ -28,7 +28,10 @@ module.exports = function (template,officialTemplate,done){
             spinner.fail();
             process.exit(1);
         }
-        spinner.stop();
+
+        spinner.text = chalk.green('Template checked success.');
+        spinner.succeed();
+
         let requestBody = JSON.parse(body);
         if (Array.isArray(requestBody)) {
             let reposName = [];
@@ -36,6 +39,7 @@ module.exports = function (template,officialTemplate,done){
                 reposName.push(repo.name);
             });
             if(reposName.indexOf(template) > -1){
+                log.tips();
                 done(officialTemplate);
             } else {
                 log.error(`Failed to download template ${chalk.blue(template)}: ${chalk.blue(template)} doesn\'t exist`);

@@ -62,8 +62,9 @@ process.on('exit', () => log.tips());
 let template = program.args[0];
 let projectDirName = program.args[1];
 let isCurrentDir = !projectDirName || projectDirName === '.';
-let clone = program.clone || false;
+let projectName = isCurrentDir ? path.relative('../', process.cwd()) : projectDirName;
 let projectDirPath = path.resolve(projectDirName || '.');
+let clone = program.clone || false;
 
 let officialTemplate = 'waka-templates/' + template;
 
@@ -103,13 +104,18 @@ function downloadAndGenerate (template){
 
         if(err){
             //err.code/err.message;
-            spinner.text = chalk.red(`Failed to download repo ${template}: ${err.message.trim()}`);
+            spinner.text = chalk.red(`Failed to download template ${template}: ${err.message.trim()}`);
             spinner.fail();
             process.exit(1);
         }
         spinner.text = chalk.green(`${template} downloaded success`);
         spinner.succeed();
         log.tips();
-        generate();
+
+        generate(projectName,tmp,projectDirPath, (err) => {
+            if(err){
+                log.error(err);
+            }
+        });
     });
 }
