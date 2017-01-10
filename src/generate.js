@@ -10,8 +10,8 @@ let path = require('path');
 
 let log = require('../src/log');
 
-module.exports = function (name, src, dest, done) {
-    log.tips(`generate params: ${name},${src},${dest},${done}`);
+module.exports = function (projectName, src, dest, done) {
+    log.tips(`generate params: ${projectName},${src},${dest},${done}`);
 
     let spinner = ora({
         text: "generate project...",
