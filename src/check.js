@@ -7,25 +7,28 @@ let request = require('request');
 let ora = require('ora');
 let chalk = require('chalk');
 
-process.on('exit', function () {
-    console.log()
-});
+let log = require('../src/log');
 
 module.exports = function (template,officialTemplate,done){
-    console.log();
-    let spinner = ora('checking template...');
-    spinner.start();
+    log.tips();
+
+    let spinner = ora({
+        text: "checking template...",
+        color:"blue"
+    }).start();
+
     request({
         url: 'https://api.github.com/users/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
         }
     }, (err, res, body) => {
-        spinner.stop();
         if(err){
-            console.error(chalk.red('chare cli:download template failed.'));
+            spinner.text = chalk.red('chare cli:checking template failed.');
+            spinner.fail();
             process.exit(1);
         }
+        spinner.stop();
         let requestBody = JSON.parse(body);
         if (Array.isArray(requestBody)) {
             let reposName = [];
@@ -35,10 +38,12 @@ module.exports = function (template,officialTemplate,done){
             if(reposName.indexOf(template) > -1){
                 done(officialTemplate);
             } else {
-                console.error(chalk.red('Failed to download template ' + template + ': not exist'));
+                log.error(`Failed to download template ${chalk.blue(template)}: ${chalk.blue(template)} doesn\'t exist`);
+                log.tips();
+                log.tips('Please visit https://github.com/waka-templates to find the template you want.');
             }
         } else {
-            console.error(chalk.red(requestBody.message));
+            log.error(requestBody.message);
         }
     });
 };

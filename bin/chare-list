@@ -4,15 +4,20 @@ let chalk = require('chalk');
 let ora = require('ora');
 let request = require('request');
 
+let log = require('../src/log');
+
 /**
  * Padding
  */
-console.log();
-let spinner = ora('loading');
-spinner.start();
+log.tips();
+
+let spinner = ora({
+    text: "fetching templates list...",
+    color:"blue"
+}).start();
 
 process.on('exit', function () {
-    console.log()
+    log.tips();
 });
 
 /**
@@ -25,23 +30,24 @@ request({
         'User-Agent': 'chare-cli'
     }
 }, (err, res, body) => {
-    spinner.stop();
     if(err){
-        console.error(chalk.red('chare cli:download repos failed.'));
+        spinner.text = chalk.red('chare cli:fetching templates list failed.');
+        spinner.fail();
         process.exit(1);
     }
+    spinner.text = chalk.green('Available official templates:');
+    spinner.succeed();
     let requestBody = JSON.parse(body);
     if (Array.isArray(requestBody)) {
-        console.log('  Available official templates:');
-        console.log();
+        log.tips();
         requestBody.forEach(function (repo) {
-            console.log(
+            log.tips(
                 '  ' + chalk.yellow('*') +
                 '  ' + chalk.blue(repo.name) +
-                ' - ' + repo.description)
+                ' - ' + repo.description);
         });
     } else {
-        console.error(chalk.red(requestBody.message));
+        log.error(requestBody.message);
     }
 });
 

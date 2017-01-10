@@ -11,8 +11,9 @@ let ora = require('ora');
 let os = require('os');
 let download = require('download-git-repo');
 
-let generate = require('../src/generate');
+let log = require('../src/log');
 let checkTpl = require('../src/check');
+let generate = require('../src/generate');
 
 /**
  * Usage.
@@ -27,11 +28,11 @@ program
  */
 
 program.on('--help', function () {
-    console.log('  Examples:');
-    console.log();
-    console.log(chalk.gray('    # create a new project with an official template'));
-    console.log('    $ chare init webpack my-project');
-    console.log();
+    log.tips('  Examples:');
+    log.tips();
+    log.tips(chalk.gray('    # create a new project with an official template'));
+    log.tips('    $ chare init webpack my-project');
+    log.tips();
 });
 
 /**
@@ -51,8 +52,8 @@ help();
  * Padding.
  */
 
-console.log();
-process.on('exit', () => console.log());
+log.tips();
+process.on('exit', () => log.tips());
 
 /**
  * Settings.
@@ -102,7 +103,7 @@ function downloadAndGenerate (template){
 
         if(err){
             //err.code/err.message;
-            console.error(chalk.red('Failed to download repo ' + template + ': ' + err.message.trim()));
+            log.error(`Failed to download repo ${template}: ${err.message.trim()}`);
             process.exit(1);
         }
         generate();
