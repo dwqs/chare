@@ -77,13 +77,13 @@ if(exists(projectDirPath)){
         name: 'ok'
     }]).then((answers) => {
         if(answers.ok){
-            //checkTpl(template,officialTemplate,downloadAndGenerate);
-            downloadAndGenerate(officialTemplate);
+            checkTpl(template,officialTemplate,downloadAndGenerate);
+            //downloadAndGenerate(officialTemplate);
         }
     });
 } else {
-    //checkTpl(template,officialTemplate,downloadAndGenerate);
-    downloadAndGenerate(officialTemplate)
+    checkTpl(template,officialTemplate,downloadAndGenerate);
+    //downloadAndGenerate(officialTemplate)
 }
 
 /**
