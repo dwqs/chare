@@ -12,6 +12,7 @@ let os = require('os');
 let download = require('download-git-repo');
 
 let generate = require('../src/generate');
+let checkTpl = require('../src/check');
 
 /**
  * Usage.
@@ -74,11 +75,13 @@ if(exists(projectDirPath)){
         name: 'ok'
     }]).then((answers) => {
         if(answers.ok){
-            downloadAndGenerate(officialTemplate);
+            checkTpl(template,officialTemplate,downloadAndGenerate);
+            //downloadAndGenerate(officialTemplate);
         }
     });
 } else {
-    downloadAndGenerate(officialTemplate)
+    checkTpl(template,officialTemplate,downloadAndGenerate);
+    //downloadAndGenerate(officialTemplate)
 }
 
 /**
