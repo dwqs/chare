@@ -35,10 +35,11 @@ request({
         spinner.fail();
         process.exit(1);
     }
-    spinner.text = chalk.green('Available official templates:');
-    spinner.succeed();
     let requestBody = JSON.parse(body);
     if (Array.isArray(requestBody)) {
+        spinner.text = chalk.green('Available official templates:');
+        spinner.succeed();
+
         log.tips();
         requestBody.forEach(function (repo) {
             log.tips(
@@ -47,6 +48,10 @@ request({
                 ' - ' + repo.description);
         });
     } else {
+        spinner.text = chalk.white('chare cli:fetching templates list failed, error message as follows:');
+        spinner.fail();
+
+        log.tips();
         log.error(requestBody.message);
     }
 });

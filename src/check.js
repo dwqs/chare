@@ -29,11 +29,11 @@ module.exports = function (template,officialTemplate,done){
             process.exit(1);
         }
 
-        spinner.text = chalk.green('Template checked success.');
-        spinner.succeed();
-
         let requestBody = JSON.parse(body);
         if (Array.isArray(requestBody)) {
+            spinner.text = chalk.green('Template checked success.');
+            spinner.succeed();
+
             let reposName = [];
             requestBody.forEach(function (repo) {
                 reposName.push(repo.name);
@@ -47,6 +47,10 @@ module.exports = function (template,officialTemplate,done){
                 log.tips('Please visit https://github.com/waka-templates to find the template you want.');
             }
         } else {
+            spinner.text = chalk.white('chare cli:checking template failed, error message as follows:');
+            spinner.fail();
+
+            log.tips();
             log.error(requestBody.message);
         }
     });
