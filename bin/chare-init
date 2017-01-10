@@ -93,19 +93,23 @@ if(exists(projectDirPath)){
 
 function downloadAndGenerate (template){
     let tmp = os.tmpdir() + '/chare-template-' + uid();
-    let spinner = ora(`downloading template: ${template}`);
-
-    spinner.start();
+    let spinner = ora({
+        text:`downloading template: ${template}`,
+        color:"blue"
+    }).start();
 
     download(template,tmp,{ clone: clone }, (err) => {
-        spinner.stop();
         process.on('exit', () => rm(tmp));
 
         if(err){
             //err.code/err.message;
-            log.error(`Failed to download repo ${template}: ${err.message.trim()}`);
+            spinner.text = chalk.red(`Failed to download repo ${template}: ${err.message.trim()}`);
+            spinner.fail();
             process.exit(1);
         }
+        spinner.text = chalk.green(`${template} downloaded success`);
+        spinner.succeed();
+        log.tips();
         generate();
     });
 }
