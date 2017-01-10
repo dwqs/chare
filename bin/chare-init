@@ -1,3 +1,107 @@
 #!/usr/bin/env node
 
-console.log('chare init:init new peoject');
+let program = require('commander');
+let chalk = require('chalk');
+let inquirer = require('inquirer');
+let exists = require('fs').existsSync;
+let path = require('path');
+let rm = require('rimraf').sync;
+let uid = require('uid');
+let ora = require('ora');
+let os = require('os');
+let download = require('download-git-repo');
+
+let generate = require('../src/generate');
+
+/**
+ * Usage.
+ */
+
+program
+    .usage('<template-name> [project-name]')
+    .option('-c, --clone', 'use git clone');
+
+/**
+ * Help.
+ */
+
+program.on('--help', function () {
+    console.log('  Examples:');
+    console.log();
+    console.log(chalk.gray('    # create a new project with an official template'));
+    console.log('    $ chare init webpack my-project');
+    console.log();
+});
+
+/**
+ * Help.
+ */
+
+function help () {
+    program.parse(process.argv);
+    if (program.args.length < 1) {
+        return program.help();
+    }
+}
+
+help();
+
+/**
+ * Padding.
+ */
+
+console.log();
+process.on('exit', () => console.log());
+
+/**
+ * Settings.
+ */
+
+let template = program.args[0];
+let projectDirName = program.args[1];
+let isCurrentDir = !projectDirName || projectDirName === '.';
+let clone = program.clone || false;
+let projectDirPath = path.resolve(projectDirName || '.');
+
+let officialTemplate = 'waka-templates/' + template;
+
+if(exists(projectDirPath)){
+    inquirer.prompt([{
+        type: 'confirm',
+        message: isCurrentDir
+            ? 'Generate project in current directory?'
+            : 'Target directory exists. Continue?',
+        name: 'ok'
+    }]).then((answers) => {
+        if(answers.ok){
+            downloadAndGenerate(officialTemplate);
+        }
+    });
+} else {
+    downloadAndGenerate(officialTemplate)
+}
+
+/**
+ * Download a generate from a template repo.
+ *
+ * @param {String} template
+ */
+
+function downloadAndGenerate (template){
+    let tmp = os.tmpdir() + '/chare-template-' + uid();
+    let spinner = ora(`downloading template: ${template}`);
+
+    spinner.start();
+
+    download(template,tmp,{ clone: clone }, (err) => {
+        spinner.stop();
+        process.on('exit', () => rm(tmp));
+
+        if(err){
+            //err.code/err.message;
+            console.error(chalk.red('Failed to download repo ' + template + ': ' + err.message.trim()));
+            process.exit(1);
+        }
+        generate();
+    });
+}
