@@ -21,6 +21,10 @@ module.exports = function (template,officialTemplate,done){
         url: 'https://api.github.com/users/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
+        },
+        auth:{
+            'user': 'dwqs',
+            'pass': '3385ea6539aaf3f4c5bb429e55640e1b75a12f99'
         }
     }, (err, res, body) => {
         if(err){
@@ -33,6 +37,7 @@ module.exports = function (template,officialTemplate,done){
         if (Array.isArray(requestBody)) {
             spinner.text = chalk.green('Template checked success.');
             spinner.succeed();
+            log.tips();
 
             let reposName = [];
             requestBody.forEach(function (repo) {
