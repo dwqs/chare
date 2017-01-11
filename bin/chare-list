@@ -14,7 +14,7 @@ let log = require('../src/log');
 program.on('--help', function () {
     log.tips('  Examples:');
     log.tips();
-    log.tips(chalk.gray('    # list all templates from github.com/waka-templates'));
+    log.tips(chalk.gray('    # list all available official templates from github.com/waka-templates'));
     log.tips('    $ chare list');
     log.tips();
 });
