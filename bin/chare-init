@@ -35,10 +35,6 @@ program.on('--help', function () {
     log.tips();
 });
 
-/**
- * Help.
- */
-
 function help () {
     program.parse(process.argv);
     if (program.args.length < 1) {
