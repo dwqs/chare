@@ -1,4 +1,6 @@
-A simple CLI for scaffolding front-end projects.
+### chare
+
+A simple CLI scaffolding for front-end projects.
 
 ## Usage
 
