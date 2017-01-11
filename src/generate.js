@@ -31,6 +31,9 @@ module.exports = function (projectName, src, dest, done) {
             }
             spinner.text = chalk.green(`Generated ${projectName}`);
             spinner.succeed();
+
+            //Generated success
+            done(null);
         });
 };
 

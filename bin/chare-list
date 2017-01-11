@@ -33,9 +33,7 @@ let spinner = ora({
     color:"blue"
 }).start();
 
-process.on('exit', function () {
-    log.tips();
-});
+process.on('exit', () => log.tips());
 
 /**
  * List repos.
