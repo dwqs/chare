@@ -19,4 +19,4 @@ $ npm install -g chare
 Chare currently is developing, don't use it in production.
 
 ### Thanks
-To [vue-cli](https://github.com/vuejs/vue-cli/) for the head start.
+To [metalsmith scaffolder](https://github.com/metalsmith/metalsmith/blob/master/examples/project-scaffolder) for the head start.
