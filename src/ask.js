@@ -47,8 +47,9 @@ function promptWraper (data, key, prompt, done) {
     inquirer.prompt([{
         type: promptMapping[prompt.type] || prompt.type,
         name: key,
-        message: prompt.default ? `${msg} <${chalk.white(prompt.default)}>: ` : msg,
+        message: `${msg}:`,
         choices: prompt.choices || [],
+        default: prompt.default ? prompt.default : '',
         validate: prompt.validate || function () {
             return true;
         }

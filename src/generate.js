@@ -14,6 +14,7 @@ let chalk = require('chalk');
 let log = require('./log');
 let getSetting  = require('./setting');
 let ask = require('./ask');
+let filesFilter = require('./files-filter');
 
 /**
  * Generate a template given a `tmpDir` and `dest`.
@@ -37,21 +38,23 @@ module.exports = function (projectName, tmpDir, dest, done) {
 
     metalsmith
         .use(askQuestions(setting))
-        //.use(filterFiles(opts.filters))
+        .use(filter(setting.filters))
         .use(template)
         .clean(false)
         .source('.') // start from template root instead of `./src` which is Metalsmith's default for `source`
         .destination(dest)
         .build(function (err) {
+            log.tips();
+
             if(err){
                 return done(err);
             }
 
             //Generated success
-            log.tips();
             ora({
                 text: chalk.green(`${projectName} generated  success`)
             }).succeed();
+
             log.tips();
 
             done(null,setting.completeMessage);
@@ -60,12 +63,21 @@ module.exports = function (projectName, tmpDir, dest, done) {
     return data;
 };
 
+//ask user for input info
 function askQuestions (setting) {
-    return function (files, metalsmith, done) {
+    return (files, metalsmith, done) => {
         ask(setting.prompts, metalsmith.metadata(), done);
     }
 }
 
+//files filter
+function filter (filters) {
+    return (files,metalsmith,done) => {
+        filesFilter(filters,files,metalsmith.metadata(),done);
+    }
+}
+
+//generate template
 function template (files,metalsmith,done) {
     let keys = Object.keys(files);
     let metadata = metalsmith.metadata();

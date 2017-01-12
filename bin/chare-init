@@ -108,7 +108,7 @@ function downloadAndGenerate (template){
 
         generate(projectName,tmp,projectDirPath, (err,msg = "") => {
             if(err){
-                log.error('Generated error "%s"',err);
+                log.error(`Generated error: ${err.message.trim()}`);
             }
 
             if(msg){
