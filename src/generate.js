@@ -2,6 +2,8 @@
  * Created by pomy on 10/01/2017.
  */
 
+'use strict';
+
 let Metalsmith = require('metalsmith');
 let ora = require('ora');
 let async = require('async');
@@ -11,13 +13,23 @@ let chalk = require('chalk');
 
 let log = require('../src/log');
 
-module.exports = function (projectName, src, dest, done) {
+
+/**
+ * Generate a template given a `tmpDir` and `dest`.
+ *
+ * @param {String} projectName
+ * @param {String} tmpDir
+ * @param {String} dest
+ * @param {Function} done
+ */
+
+module.exports = function (projectName, tmpDir, dest, done) {
     let spinner = ora({
         text: "generate project...",
         color:"blue"
     }).start();
 
-    let metalsmith = Metalsmith(path.join(src, 'template'));
+    let metalsmith = Metalsmith(path.join(tmpDir, 'template'));
     metalsmith
         //.use(askQuestions(opts.prompts))
         //.use(filterFiles(opts.filters))

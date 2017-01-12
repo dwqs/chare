@@ -1,7 +1,9 @@
 /**
  * Created by pomy on 10/01/2017.
- * 检验模板名是否存在，避免使用不存在的模板名时长时间的下载等待
+ * check the template is exists.
  */
+
+'use strict';
 
 let request = require('request');
 let ora = require('ora');
