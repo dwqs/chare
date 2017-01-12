@@ -1,7 +1,7 @@
 {
   "name": "chare",
-  "version": "2.0.2",
-  "description": "A simple CLI for scaffolding Vue.js projects.",
+  "version": "2.0.3",
+  "description": "A simple CLI scaffolding for front-end projects.",
   "preferGlobal": true,
   "bin": {
     "chare": "bin/chare",
@@ -27,9 +27,7 @@
   "homepage": "https://github.com/dwqs/chare#readme",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm run lint && npm run e2e",
-    "lint": "eslint test/e2e/test.js lib bin/* --env mocha",
-    "e2e": "rimraf test/e2e/mock-template-build/*.* && cross-env BABEL_ENV=development mocha test/e2e/test.js --slow 1000 --compilers js:babel-core/register"
+
   },
   "dependencies": {
     "async": "^2.1.4",
