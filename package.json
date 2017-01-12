@@ -1,6 +1,6 @@
 {
   "name": "chare",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A simple CLI for scaffolding Vue.js projects.",
   "preferGlobal": true,
   "bin": {
