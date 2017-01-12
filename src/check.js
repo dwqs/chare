@@ -26,7 +26,7 @@ module.exports = function (template,officialTemplate,done){
         },
         auth:{
             'user': 'dwqs',
-            'pass': '9649848fb7b01bb4ccd66f384ecba7d43be73d22'
+            'pass': 'bf109fcd625bdb3ee127e0f3f97063d527823881'
         }
     }, (err, res, body) => {
         if(err){
