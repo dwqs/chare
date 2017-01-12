@@ -1,4 +1,4 @@
-### chare
+## chare
 
 A simple CLI scaffolding for front-end projects.
 
