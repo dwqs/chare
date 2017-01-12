@@ -20,5 +20,11 @@ module.exports = function () {
     userName = userName && JSON.stringify(userName.toString().trim()).slice(1, -1);
     userEmail = userEmail && (' <' + userEmail.toString().trim() + '>');
 
-    return (userName || '') + (userEmail || '');
+    if(userName){
+        return userName;
+    } else if(userEmail){
+        return userEmail
+    } else {
+        return '';
+    }
 };
