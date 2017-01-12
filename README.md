@@ -14,9 +14,5 @@ $ npm install -g chare
 * `chare list` --- list all available official templates from [waka-templates](https://github.com/waka-templates).
 * `chare init template-name your-project-name` --- init your project with specified template.
 
-### Note
-
-Chare currently is developing, don't use it in production.
-
 ### Thanks
 To [metalsmith scaffolder](https://github.com/metalsmith/metalsmith/blob/master/examples/project-scaffolder) for the head start.
