@@ -25,11 +25,6 @@ let ask = require('./ask');
  */
 
 module.exports = function (projectName, tmpDir, dest, done) {
-    let spinner = ora({
-        text: "generate project...",
-        color:"blue"
-    }).start();
-
     let setting = getSetting(projectName, tmpDir);
 
     let metalsmith = Metalsmith(path.join(tmpDir, 'template'));
@@ -41,7 +36,7 @@ module.exports = function (projectName, tmpDir, dest, done) {
     });
 
     metalsmith
-        .use(askQuestions(setting,spinner))
+        .use(askQuestions(setting))
         //.use(filterFiles(opts.filters))
         .use(template)
         .clean(false)
@@ -51,16 +46,21 @@ module.exports = function (projectName, tmpDir, dest, done) {
             if(err){
                 return done(err);
             }
-            //spinner.text = chalk.green(`Generated ${projectName}`);
-            //spinner.succeed();
 
             //Generated success
-            done(null);
+            log.tips();
+            ora({
+                text: chalk.green(`${projectName} generated  success`)
+            }).succeed();
+            log.tips();
+
+            done(null,setting.completeMessage);
         });
+
+    return data;
 };
 
-function askQuestions (setting,spinner) {
-    spinner.stop();
+function askQuestions (setting) {
     return function (files, metalsmith, done) {
         ask(setting.prompts, metalsmith.metadata(), done);
     }
