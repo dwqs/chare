@@ -78,8 +78,8 @@ if(exists(projectDirPath)){
         }
     });
 } else {
-    checkTpl(template,officialTemplate,downloadAndGenerate);
-    //downloadAndGenerate(officialTemplate)
+    //checkTpl(template,officialTemplate,downloadAndGenerate);
+    downloadAndGenerate(officialTemplate)
 }
 
 /**

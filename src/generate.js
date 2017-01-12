@@ -11,8 +11,9 @@ let render = require('consolidate').handlebars.render;
 let path = require('path');
 let chalk = require('chalk');
 
-let log = require('../src/log');
-
+let log = require('./log');
+let getSetting  = require('./setting');
+let ask = require('./ask');
 
 /**
  * Generate a template given a `tmpDir` and `dest`.
@@ -29,9 +30,18 @@ module.exports = function (projectName, tmpDir, dest, done) {
         color:"blue"
     }).start();
 
+    let setting = getSetting(projectName, tmpDir);
+
     let metalsmith = Metalsmith(path.join(tmpDir, 'template'));
+
+    let data = Object.assign(metalsmith.metadata(), {
+        destDirName: projectName,
+        inPlace: dest === process.cwd(),
+        noEscape: true
+    });
+
     metalsmith
-        //.use(askQuestions(opts.prompts))
+        .use(askQuestions(setting,spinner))
         //.use(filterFiles(opts.filters))
         .use(template)
         .clean(false)
@@ -41,13 +51,20 @@ module.exports = function (projectName, tmpDir, dest, done) {
             if(err){
                 return done(err);
             }
-            spinner.text = chalk.green(`Generated ${projectName}`);
-            spinner.succeed();
+            //spinner.text = chalk.green(`Generated ${projectName}`);
+            //spinner.succeed();
 
             //Generated success
             done(null);
         });
 };
+
+function askQuestions (setting,spinner) {
+    spinner.stop();
+    return function (files, metalsmith, done) {
+        ask(setting.prompts, metalsmith.metadata(), done);
+    }
+}
 
 function template (files,metalsmith,done) {
     let keys = Object.keys(files);
