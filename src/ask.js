@@ -54,33 +54,14 @@ function promptWraper (data, key, prompt, done) {
             return true;
         }
     }]).then((anwsers) => {
-        data[key] = anwsers[key];
+        if (Array.isArray(anwsers[key])){
+            data[key] = [];
+            anwsers[key].forEach((choice) => {
+                data[key].push(choice);
+            });
+        } else {
+            data[key] = anwsers[key];
+        }
         done();
     });
 }
-
-// let promptDefault = prompt.default;
-// if (typeof prompt.default === 'function') {
-//     promptDefault = function () {
-//         return prompt.default.bind(this)(data);
-//     }
-// }
-//
-// inquirer.prompt([{
-//     type: promptMapping[prompt.type] || prompt.type,
-//     name: key,
-//     message: prompt.message || prompt.label || key,
-//     default: promptDefault,
-//     choices: prompt.choices || [],
-//     validate: prompt.validate || function () { return true }
-// }]).then((answers) => {
-//     if (Array.isArray(answers[key])) {
-//         data[key] = {};
-//         answers[key].forEach(function (multiChoiceAnswer) {
-//             data[key][multiChoiceAnswer] = true;
-//         });
-//     } else {
-//         data[key] = answers[key];
-//     }
-//     done();
-// });

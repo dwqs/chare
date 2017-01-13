@@ -23,6 +23,10 @@ module.exports = function (template,officialTemplate,done){
         url: 'https://api.github.com/users/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
+        },
+        auth:{
+            "user":"dwqs",
+            "pass":"912d9b0ff25025db52123627cb710672571648eb"
         }
     }, (err, res, body) => {
         if(err){
