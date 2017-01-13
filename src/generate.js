@@ -12,7 +12,7 @@ let path = require('path');
 let chalk = require('chalk');
 
 let log = require('./log');
-let getSetting  = require('./setting');
+let getSetting  = require('./settings');
 let ask = require('./ask');
 let filesFilter = require('./files-filter');
 
