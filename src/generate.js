@@ -32,7 +32,7 @@ module.exports = function (projectName, tmpDir, dest, done) {
 
     let data = Object.assign(metalsmith.metadata(), {
         destDirName: projectName,
-        inPlace: dest === process.cwd(),
+        isCwd: dest === process.cwd(),
         noEscape: true
     });
 
