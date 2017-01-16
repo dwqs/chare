@@ -15,6 +15,7 @@ let log = require('./log');
 let getSetting  = require('./settings');
 let ask = require('./ask');
 let filesFilter = require('./files-filter');
+let utils = require('./utils');
 
 /**
  * Generate a template given a `tmpDir` and `dest`.
@@ -31,8 +32,11 @@ module.exports = function (projectName, tmpDir, dest, done) {
     let setting = getSetting(projectName, tmpDir);
     let tplPath = path.join(tmpDir, 'template');
 
-
-    metalsmith = Metalsmith();
+    if(utils.isExist(tplPath)){
+        metalsmith = Metalsmith(tplPath);
+    } else {
+        metalsmith = Metalsmith(tmpDir);
+    }
 
     let data = Object.assign(metalsmith.metadata(), {
         destDirName: projectName,
