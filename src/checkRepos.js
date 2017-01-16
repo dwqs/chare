@@ -23,7 +23,7 @@ module.exports = function (repo,done){
             'User-Agent': 'chare-cli'
         }
     }, (err, res) => {
-        console.log('code111',res.statusCode)
+
         if(err){
             spinner.text = chalk.red('chare cli:checking repos failed.');
             spinner.fail();
@@ -40,7 +40,11 @@ module.exports = function (repo,done){
             return true;
         } else {
             spinner.stop();
-            log.error(`Repos ${template} not found on github.com`);
+            log.tips();
+            log.tips(chalk.red('Repos checked fail.: ${repo} not found on github.com'));
+            log.tips();
+            log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+            process.exit(1);
             return false;
         }
     });

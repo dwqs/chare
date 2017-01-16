@@ -86,6 +86,9 @@ function runTask(){
             ? template : path.normalize(path.join(process.cwd(), template));
 
         if(utils.isExist(templatePath)){
+            log.success(`Template is from ${templatePath}`);
+            log.tips();
+
             generate(projectName,templatePath,projectDirPath, (err,msg = "") => {
                 if(err){
                     log.error(`Generated error: ${err.message.trim()}`);
@@ -100,17 +103,24 @@ function runTask(){
             });
         } else {
             log.tips();
-            if(path.join('.',template) === template){
-                log.tips(chalk.red(`Local template ${template} not found`));
-                log.tips();
-
-                //for check path: test/sdas from github
-                checkRepos(template,downloadAndGenerate);
-            } else {
-                log.error(`Local template ${template} not found.`);
-            }
+            log.error(`Local template ${template} not found.`);
         }
     } else {
+
+        let arr = template.split(path.sep);
+
+        //judge the template whether if match 'sdsd/sdasd' or 'sdasd/sdasd/'
+        if((arr.length === 2 && arr[0] && arr[1]) || (arr.length === 3 && arr[0] && arr[1] && !arr[2])){
+            log.tips(chalk.red(`Local template ${template} not found.`));
+            log.tips();
+
+            //check repo from github.com
+            checkRepos(template,downloadAndGenerate);
+            return;
+        }
+
+
+        //use official templates
         let officialTemplate = 'waka-templates/' + template;
         checkTpl(template,officialTemplate,downloadAndGenerate);
     }

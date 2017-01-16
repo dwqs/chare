@@ -27,17 +27,12 @@ module.exports = {
     },
 
     isLocalTemplate(tpl){
-        let tmp = path.join('.',tpl) === tpl; //for check path: test/sdas && test
+        let isLocal = tpl.startsWith('.') || tpl.startsWith('/') || /^\w:/.test(tpl);
 
-        if(tmp){
-            let arr = tpl.split(path.sep);
-            if(arr.length === 2 && arr[0] && arr[1]){
-                return true;
-            } else {
-                return false;
-            }
+        if(isLocal){
+            return isLocal;
+        } else {
+            return this.isExist(path.normalize(path.join(process.cwd(), tpl)));
         }
-
-        return tpl.startsWith('.') || tpl.startsWith('/') || /^\w:/.test(tpl);
     }
 };
