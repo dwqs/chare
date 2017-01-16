@@ -14,6 +14,10 @@ module.exports = function (filters,files,data,done) {
 
     let filePaths = Object.keys(files);
 
+    if(!filePaths.length) {
+        return done();
+    }
+
     Object.keys(filters).forEach(function (regexp) {
         filePaths.forEach(function (path) {
             if (match(path, regexp, { dot: true })) {
