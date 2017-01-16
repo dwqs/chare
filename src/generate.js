@@ -26,9 +26,13 @@ let filesFilter = require('./files-filter');
  */
 
 module.exports = function (projectName, tmpDir, dest, done) {
-    let setting = getSetting(projectName, tmpDir);
+    let metalsmith;
 
-    let metalsmith = Metalsmith(path.join(tmpDir, 'template'));
+    let setting = getSetting(projectName, tmpDir);
+    let tplPath = path.join(tmpDir, 'template');
+
+
+    metalsmith = Metalsmith();
 
     let data = Object.assign(metalsmith.metadata(), {
         destDirName: projectName,

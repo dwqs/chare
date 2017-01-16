@@ -10,7 +10,7 @@ let metadata = require('read-metadata');
 let getGithubConfig = require('./config');
 let validateName = require('validate-npm-package-name');
 
-let utils = require('../src/utils');
+let utils = require('./utils');
 
 /**
  * Read metadata of template
