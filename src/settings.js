@@ -21,32 +21,32 @@ let validateName = require('validate-npm-package-name');
 function getMetadata (dir) {
     let json = path.join(dir, 'meta.json');
     let js = path.join(dir, 'meta.js');
-    let opts = {};
+    let setting = {};
 
     if (exists(json)) {
-        opts = metadata.sync(json);
+        setting = metadata.sync(json);
     } else if (exists(js)) {
         let req = require(path.resolve(js));
         if (req !== Object(req)) {
             throw new Error('meta.js needs to expose an object');
         }
-        opts = req;
+        setting = req;
     }
 
-    return opts
+    return setting
 }
 
 /**
  * Set the default value for a prompt question
  *
- * @param {Object} opts
+ * @param {Object} setting
  * @param {String} key
  * @param {String} val
  */
 
-function setDefault (opts, key, val) {
+function setDefault (setting, key, val) {
 
-    let prompts = opts.prompts || (opts.prompts = {});
+    let prompts = setting.prompts || (setting.prompts = {});
     if (!prompts[key] || typeof prompts[key] !== 'object') {
         prompts[key] = {
             'type': 'string',
@@ -60,11 +60,11 @@ function setDefault (opts, key, val) {
 /**
  * check the projectName is valid for npm publish
  *
- * @param opts
+ * @param setting
  */
 
-function setValidateName (opts) {
-    let name = opts.prompts.name;
+function setValidateName (setting) {
+    let name = setting.prompts.name;
     let customValidate = name.validate;
 
     name.validate = function (name) {
@@ -90,15 +90,15 @@ function setValidateName (opts) {
  */
 
 module.exports = function (projectName, tmpDir) {
-    let opts = getMetadata(tmpDir);
+    let setting = getMetadata(tmpDir);
 
-    setDefault(opts, 'name', projectName);
-    setValidateName(opts);
+    setDefault(setting, 'name', projectName);
+    setValidateName(setting);
 
     let authorInfo = getGithubConfig();
     if (authorInfo) {
-        setDefault(opts, 'author', authorInfo);
+        setDefault(setting, 'author', authorInfo);
     }
 
-    return opts;
+    return setting;
 };
