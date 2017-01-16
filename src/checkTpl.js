@@ -1,6 +1,6 @@
 /**
  * Created by pomy on 10/01/2017.
- * check the template is exists.
+ * check the template is exists on https://github.com/waka-templates.
  */
 
 'use strict';

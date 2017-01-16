@@ -11,7 +11,8 @@ let os = require('os');
 let download = require('download-git-repo');
 
 let log = require('../src/log');
-let checkTpl = require('../src/check');
+let checkTpl = require('../src/checkTpl');
+let checkRepos = require('../src/checkRepos');
 let generate = require('../src/generate');
 let utils = require('../src/utils');
 
@@ -61,10 +62,6 @@ let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) :
 let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
 
-let isLocalTemplate = utils.isLocalTemplate(template);
-
-let officialTemplate = 'waka-templates/' + template;
-
 if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
         type: 'confirm',
@@ -74,11 +71,54 @@ if(utils.isExist(projectDirPath)){
         name: 'ok'
     }]).then((answers) => {
         if(answers.ok){
-            //checkTpl(template,officialTemplate,downloadAndGenerate);
+            runTask();
         }
     });
 } else {
-    //checkTpl(template,officialTemplate,downloadAndGenerate);
+    runTask();
+}
+
+function runTask(){
+    let isLocalTemplate = utils.isLocalTemplate(template);
+
+    if(isLocalTemplate){
+        let templatePath = template.startsWith('/') || /^\w:/.test(template)
+            ? template : path.normalize(path.join(process.cwd(), template));
+
+        if(utils.isExist(templatePath)){
+            generate(projectName,templatePath,projectDirPath, (err,msg = "") => {
+                if(err){
+                    log.error(`Generated error: ${err.message.trim()}`);
+                }
+
+                if(msg){
+                    let re = /{{[^{}]+}}/g;
+                    log.tips('\n' + msg.replace(re,projectName).split(/\r?\n/g).map(function (line) {
+                            return '   ' + line
+                        }).join('\n'));
+                }
+            });
+        } else {
+            log.tips();
+            if(path.join('.',template) === template){
+                log.tips(chalk.red(`Local template ${template} not found`));
+                log.tips();
+
+                //for check path: test/sdas from github
+                let isRepos = checkRepos(template);
+                if(isRepos){
+                    downloadAndGenerate(template);
+                } else {
+                    log.error(`Repos ${template} not found on github.com`);
+                }
+            } else {
+                log.error(`Local template ${template} not found.`);
+            }
+        }
+    } else {
+        let officialTemplate = 'waka-templates/' + template;
+        checkTpl(template,officialTemplate,downloadAndGenerate);
+    }
 }
 
 /**
