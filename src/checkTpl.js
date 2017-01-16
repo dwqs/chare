@@ -14,6 +14,8 @@ let log = require('../src/log');
 module.exports = function (template,officialTemplate,done){
     log.tips();
 
+    template = template.indexOf('/') === -1 ? template : template.split('/')[0];
+
     let spinner = ora({
         text: "checking template...",
         color:"blue"
