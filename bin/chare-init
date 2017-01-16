@@ -105,13 +105,7 @@ function runTask(){
                 log.tips();
 
                 //for check path: test/sdas from github
-                let isRepos = checkRepos(template);
-
-                if(isRepos){
-                    downloadAndGenerate(template);
-                } else {
-                    log.error(`Repos ${template} not found on github.com`);
-                }
+                checkRepos(template,downloadAndGenerate);
             } else {
                 log.error(`Local template ${template} not found.`);
             }

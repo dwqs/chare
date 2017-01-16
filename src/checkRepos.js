@@ -11,9 +11,9 @@ let chalk = require('chalk');
 
 let log = require('../src/log');
 
-module.exports = function (repo){
+module.exports = function (repo,done){
     let spinner = ora({
-        text: `checking ${repo} from github.com...`,
+        text: `checking repo ${repo} from github.com...`,
         color:"blue"
     }).start();
 
@@ -23,19 +23,24 @@ module.exports = function (repo){
             'User-Agent': 'chare-cli'
         }
     }, (err, res) => {
+        console.log('code111',res.statusCode)
         if(err){
             spinner.text = chalk.red('chare cli:checking repos failed.');
             spinner.fail();
             process.exit(1);
         }
 
-        spinner.text = chalk.green('Repos checked success.');
-        spinner.succeed();
         log.tips();
 
         if(res.statusCode === 200){
+            spinner.text = chalk.green('Repos checked success.');
+            spinner.succeed();
+            log.tips();
+            done(repo);
             return true;
         } else {
+            spinner.stop();
+            log.error(`Repos ${template} not found on github.com`);
             return false;
         }
     });
