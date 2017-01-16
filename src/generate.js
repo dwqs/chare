@@ -38,7 +38,7 @@ module.exports = function (projectName, tmpDir, dest, done) {
 
     metalsmith
         .use(askQuestions(setting))
-        .use(filter(setting.filters))
+        .use(filter(setting))
         .use(template)
         .clean(false)
         .source('.') // start from template root instead of `./src` which is Metalsmith's default for `source`
@@ -71,9 +71,9 @@ function askQuestions (setting) {
 }
 
 //files filter
-function filter (filters) {
+function filter (setting) {
     return (files,metalsmith,done) => {
-        filesFilter(filters,files,metalsmith.metadata(),done);
+        filesFilter(setting.filters,files,metalsmith.metadata(),done);
     }
 }
 

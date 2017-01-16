@@ -7,9 +7,10 @@
 
 let path = require('path');
 let metadata = require('read-metadata');
-let exists = require('fs').existsSync;
 let getGithubConfig = require('./config');
 let validateName = require('validate-npm-package-name');
+
+let utils = require('../src/utils');
 
 /**
  * Read metadata of template
@@ -23,14 +24,19 @@ function getMetadata (dir) {
     let js = path.join(dir, 'meta.js');
     let setting = {};
 
-    if (exists(json)) {
+    if (utils.isExist(json)) {
         setting = metadata.sync(json);
-    } else if (exists(js)) {
+    } else if (utils.isExist(js)) {
         let req = require(path.resolve(js));
         if (req !== Object(req)) {
             throw new Error('meta.js needs to expose an object');
         }
         setting = req;
+    } else {
+        return {
+            prompts: {},
+            filters: {}
+        }
     }
 
     return setting
