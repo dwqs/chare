@@ -13,7 +13,7 @@ let log = require('../src/log');
 
 module.exports = function (repo,done){
     let spinner = ora({
-        text: `checking repo ${repo} from github.com...`,
+        text: 'checking template from github.com...',
         color:"blue"
     }).start();
 
@@ -25,7 +25,7 @@ module.exports = function (repo,done){
     }, (err, res) => {
 
         if(err){
-            spinner.text = chalk.red('chare cli:checking repos failed.');
+            spinner.text = chalk.red(`chare cli:checking template ${repo} from github.com failed.`);
             spinner.fail();
             process.exit(1);
         }
@@ -33,19 +33,17 @@ module.exports = function (repo,done){
         log.tips();
 
         if(res.statusCode === 200){
-            spinner.text = chalk.green('Repos checked success.');
+            spinner.text = chalk.green('Template checked success from github.com.');
             spinner.succeed();
             log.tips();
             done(repo);
-            return true;
         } else {
             spinner.stop();
             log.tips();
-            log.tips(chalk.red('Repos checked fail.: ${repo} not found on github.com'));
+            log.tips(chalk.red(`Template checked fail: ${repo} not found on github.com`));
             log.tips();
             log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
             process.exit(1);
-            return false;
         }
     });
 };

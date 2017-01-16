@@ -32,7 +32,7 @@ module.exports = function (template,officialTemplate,done){
         }
     }, (err, res, body) => {
         if(err){
-            spinner.text = chalk.red('chare cli:checking template failed.');
+            spinner.text = chalk.red('chare cli:checking official template failed.');
             spinner.fail();
             process.exit(1);
         }
