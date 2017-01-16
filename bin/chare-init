@@ -3,7 +3,6 @@
 let program = require('commander');
 let chalk = require('chalk');
 let inquirer = require('inquirer');
-let exists = require('fs').existsSync;
 let path = require('path');
 let rm = require('rimraf').sync;
 let uid = require('uid');
@@ -14,6 +13,7 @@ let download = require('download-git-repo');
 let log = require('../src/log');
 let checkTpl = require('../src/check');
 let generate = require('../src/generate');
+let utils = require('../src/utils');
 
 /**
  * Usage.
@@ -31,7 +31,7 @@ program.on('--help', function () {
     log.tips('  Examples:');
     log.tips();
     log.tips(chalk.gray('    # create a new project with an official template'));
-    log.tips('    $ chare init webpack my-project');
+    log.tips('    $ chare init vue-webpack my-project');
     log.tips();
 });
 
@@ -56,28 +56,29 @@ process.on('exit', () => log.tips());
  */
 
 let template = program.args[0];
-let projectDirName = program.args[1];
-let isCurrentDir = !projectDirName || projectDirName === '.';
-let projectName = isCurrentDir ? path.relative('../', process.cwd()) : projectDirName;
+let projectDirName = program.args[1] || '.';
+let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) : projectDirName;
 let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
 
+let isLocalTemplate = utils.isLocalTemplate(template);
+
 let officialTemplate = 'waka-templates/' + template;
 
-if(exists(projectDirPath)){
+if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
         type: 'confirm',
-        message: isCurrentDir
+        message: projectDirName === '.'
             ? 'Generate project in current directory?'
             : 'Target directory exists. Continue?',
         name: 'ok'
     }]).then((answers) => {
         if(answers.ok){
-            checkTpl(template,officialTemplate,downloadAndGenerate);
+            //checkTpl(template,officialTemplate,downloadAndGenerate);
         }
     });
 } else {
-    checkTpl(template,officialTemplate,downloadAndGenerate);
+    //checkTpl(template,officialTemplate,downloadAndGenerate);
 }
 
 /**
