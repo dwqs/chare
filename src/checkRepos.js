@@ -13,7 +13,7 @@ let log = require('../src/log');
 
 module.exports = function (repo){
     let spinner = ora({
-        text: "checking from github...",
+        text: `checking ${repo} from github.com...`,
         color:"blue"
     }).start();
 
@@ -29,7 +29,8 @@ module.exports = function (repo){
             process.exit(1);
         }
 
-        spinner.stop();
+        spinner.text = chalk.green('Repos checked success.');
+        spinner.succeed();
         log.tips();
 
         if(res.statusCode === 200){

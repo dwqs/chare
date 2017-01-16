@@ -106,6 +106,7 @@ function runTask(){
 
                 //for check path: test/sdas from github
                 let isRepos = checkRepos(template);
+
                 if(isRepos){
                     downloadAndGenerate(template);
                 } else {
