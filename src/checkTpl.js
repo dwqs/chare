@@ -5,7 +5,7 @@
 
 'use strict';
 
-let request = require('request');
+let axios = require('axios');
 let ora = require('ora');
 let chalk = require('chalk');
 
@@ -21,33 +21,27 @@ module.exports = function (template,officialTemplate,done){
         color:"blue"
     }).start();
 
-    request({
+    axios({
         url: 'https://api.github.com/users/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
         },
         auth:{
             "user":'dwqs',
-            "pass":"9d8267d93214144f7f2602faa643c62708031641"
+            "pass":"3b89a5a4337405a5bfe8d3512c9c30ea9ca1c210"
         }
-    }, (err, res, body) => {
-        if(err){
-            spinner.text = chalk.red('chare cli:checking official template failed.');
-            spinner.fail();
-            process.exit(1);
-        }
-
-        let requestBody = JSON.parse(body);
-        if (Array.isArray(requestBody)) {
+    }).then((res) => {
+        if (Array.isArray(res.data)) {
             let reposName = [];
 
-            requestBody.forEach(function (repo) {
+            res.data.forEach(function (repo) {
                 reposName.push(repo.name);
             });
 
             if(reposName.indexOf(template) > -1){
                 spinner.text = chalk.green('Template checked success.');
                 spinner.succeed();
+
                 log.tips();
                 done(officialTemplate);
             } else {
@@ -61,7 +55,15 @@ module.exports = function (template,officialTemplate,done){
             spinner.fail();
 
             log.tips();
-            log.error(requestBody.message);
+            log.error(`     ${res.statusText}: ${res.data.message}`);
+        }
+    }).catch((err) => {
+        let res = err.response;
+        if(err){
+            spinner.text = chalk.white('chare cli:checking official template failed, error message as follows:');
+            spinner.fail();
+            log.tips();
+            log.error(`     ${res.statusText}: ${res.data.message}`);
         }
     });
 };
