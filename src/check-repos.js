@@ -17,8 +17,10 @@ module.exports = function (repo,done){
         color:"blue"
     }).start();
 
+    let repoInfo = repo.split('/');
+
     axios({
-        url: `https://github.com/${repo}`,
+        url: `https://api.github.com/users/${repoInfo[0]}/repos`,
         method: 'get',
         headers: {
             'User-Agent': 'chare-cli'
@@ -26,17 +28,25 @@ module.exports = function (repo,done){
     }).then((res) => {
         log.tips();
 
-        if(res.status === 200){
-            oraer.text = chalk.green('Template checked success from github.com.');
-            oraer.succeed();
+        if(res.status === 200 && Array.isArray(res.data)){
+            let reposName = [];
 
-            log.tips();
-            done(repo);
+            res.data.forEach(function (repo) {
+                reposName.push(repo.name);
+            });
+
+            if(reposName.indexOf(repoInfo[1]) > -1){
+                oraer.text = chalk.green('Template checked success from github.com.');
+                oraer.succeed();
+
+                log.tips();
+                done(repo);
+            }
         } else {
             oraer.stop();
 
             log.tips();
-            log.tips(chalk.red(`Template checked fail: ${repo} not found on github.com`));
+            log.tips(chalk.red(`Template checked fail: ${repo} not found on github.com.`));
             log.tips();
             log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
             process.exit(1);

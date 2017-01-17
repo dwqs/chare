@@ -40,7 +40,7 @@ process.on('exit', () => log.tips());
  */
 
 axios({
-    url:  'https://api.github.com/users/waka-templates/repos',
+    url:  'https://api.github.com/orgs/waka-templates/repos',
     method: 'get',
     headers: {
         'User-Agent': 'chare-cli'

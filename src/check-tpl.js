@@ -22,7 +22,7 @@ module.exports = function (template,officialTemplate,done){
     }).start();
 
     axios({
-        url: 'https://api.github.com/users/waka-templates/repos',
+        url: 'https://api.github.com/orgs/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
         }
@@ -46,6 +46,7 @@ module.exports = function (template,officialTemplate,done){
                 log.tips(`Failed to download template ${chalk.red(template)}: ${chalk.red(template)} doesn\'t exist.`);
                 log.tips();
                 log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+                process.exit(1);
             }
         } else {
             spinner.text = chalk.white('chare cli:checking template failed, error message as follows:');
