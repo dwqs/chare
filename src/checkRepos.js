@@ -9,10 +9,10 @@ let axios = require('axios');
 let ora = require('ora');
 let chalk = require('chalk');
 
-let log = require('../src/log');
+let log = require('./log');
 
-module.exports = function (repo){
-    let spinner = ora({
+module.exports = function (repo,done){
+    let oraer = ora({
         text: 'checking template from github.com...',
         color:"blue"
     }).start();
@@ -24,28 +24,31 @@ module.exports = function (repo){
             'User-Agent': 'chare-cli'
         }
     }).then((res) => {
-        spinner.stop();
         log.tips();
 
         if(res.status === 200){
-            spinner.text = chalk.green('Template checked success from github.com.');
-            spinner.succeed();
+            oraer.text = chalk.green('Template checked success from github.com.');
+            oraer.succeed();
+
             log.tips();
-            return true;
+            done(repo);
         } else {
+            oraer.stop();
+
             log.tips();
             log.tips(chalk.red(`Template checked fail: ${repo} not found on github.com`));
             log.tips();
-            return false;
+            log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+            process.exit(1);
         }
     }).catch((err) => {
         let res = err.response;
         if(err){
-            spinner.text = chalk.white(`chare cli:checking template ${repo} from github.com failed.error message as follows:`);
+            spinner.text = chalk.white(`chare cli:checking template ${repo} failed from github.com, error message as follows:`);
             spinner.fail();
 
             log.tips();
-            log.tips(chalk.red(`     ${res.statusText}: ${res.data.message}`));
+            log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
             log.tips();
             log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
             process.exit(1);

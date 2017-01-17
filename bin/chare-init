@@ -61,6 +61,7 @@ let projectDirName = program.args[1] || '.';
 let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) : projectDirName;
 let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
+let hasSlash = template.indexOf('/') > -1;
 
 if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
@@ -105,21 +106,24 @@ function runTask(){
             log.tips();
             log.error(`Local template ${template} not found.`);
         }
-    } else {
-
+    } else if(hasSlash) {
         let arr = template.split(path.sep);
 
-        //judge the template whether if match 'sdsd/sdasd' or 'sdasd/sdasd/'
-        if((arr.length === 2 && arr[0] && arr[1]) || (arr.length === 3 && arr[0] && arr[1] && !arr[2])){
+        //judge the template whether if match 'sdsd/sdasd' or 'sdasd/sdasd/' or 'sda/sdas/**'
+        if((arr.length === 2 && arr[0] && arr[1]) || (arr.length > 2)){
+            log.tips();
             log.tips(chalk.red(`Local template ${template} not found.`));
             log.tips();
 
             //check repo from github.com
             checkRepos(template,downloadAndGenerate);
-            return;
+        } else {
+            //if template match sda/ and use official templates
+            let officialTemplate = 'waka-templates/' + template;
+            checkTpl(template,officialTemplate,downloadAndGenerate);
         }
 
-
+    } else {
         //use official templates
         let officialTemplate = 'waka-templates/' + template;
         checkTpl(template,officialTemplate,downloadAndGenerate);
