@@ -2,7 +2,7 @@
 
 let chalk = require('chalk');
 let ora = require('ora');
-let request = require('request');
+let axios = require('axios');
 let program = require('commander');
 
 let log = require('../src/log');
@@ -39,28 +39,23 @@ process.on('exit', () => log.tips());
  * List repos.
  */
 
-request({
-    url: 'https://api.github.com/users/waka-templates/repos',
+axios({
+    url:  'https://api.github.com/users/waka-templates/repos',
+    method: 'get',
     headers: {
         'User-Agent': 'chare-cli'
     },
     auth:{
-        "user":'dwqs',
-        "pass":"9d8267d93214144f7f2602faa643c62708031641"
+        "username":'dwqs',
+        "password":"3b89a5a4337405a5bfe8d3512c9c30ea9ca1c210"
     }
-}, (err, res, body) => {
-    if(err){
-        spinner.text = chalk.red('chare cli:fetching templates list failed.');
-        spinner.fail();
-        process.exit(1);
-    }
-    let requestBody = JSON.parse(body);
-    if (Array.isArray(requestBody)) {
+}).then((res) => {
+    if (Array.isArray(res.data)) {
         spinner.text = chalk.green('Available official templates:');
         spinner.succeed();
 
         log.tips();
-        requestBody.forEach(function (repo) {
+        res.data.forEach(function (repo) {
             log.tips(
                 '  ' + chalk.yellow('*') +
                 '  ' + chalk.blue(repo.name) +
@@ -71,7 +66,15 @@ request({
         spinner.fail();
 
         log.tips();
-        log.error(requestBody.message);
+        log.error(`     ${res.statusText}`);
+    }
+}).catch((err) => {
+    let res = err.response;
+    if(err){
+        spinner.text = chalk.white('chare cli:fetching templates list failed, error message as follows:');
+        spinner.fail();
+        log.tips();
+        log.error(`     ${res.statusText}: ${res.data.message}`);
     }
 });
 
