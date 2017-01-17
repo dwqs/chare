@@ -25,10 +25,6 @@ module.exports = function (template,officialTemplate,done){
         url: 'https://api.github.com/users/waka-templates/repos',
         headers: {
             'User-Agent': 'chare-cli'
-        },
-        auth:{
-            "username":'dwqs',
-            "password":"3b89a5a4337405a5bfe8d3512c9c30ea9ca1c210"
         }
     }).then((res) => {
         if (Array.isArray(res.data)) {
