@@ -5,7 +5,7 @@ let chalk = require('chalk');
 let inquirer = require('inquirer');
 let path = require('path');
 let rm = require('rimraf').sync;
-let uid = require('uid');
+let uuidV1 = require('uuid/v1');
 let ora = require('ora');
 let os = require('os');
 let download = require('download-git-repo');
@@ -133,7 +133,7 @@ function runTask(){
  */
 
 function downloadAndGenerate (template){
-    let tmp = os.tmpdir() + '/chare-template-' + uid();
+    let tmp = os.tmpdir() + '/chare-template-' + uuidV1();
     let spinner = ora({
         text:`start downloading template: ${template}`,
         color:"blue"
