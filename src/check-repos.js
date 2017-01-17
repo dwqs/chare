@@ -28,7 +28,7 @@ module.exports = function (repo,done){
     }).then((res) => {
         log.tips();
 
-        if(res.status === 200 && Array.isArray(res.data)){
+        if(res.status === 200 && Array.isArray(res.data) && res.data.length){
             let reposName = [];
 
             res.data.forEach(function (repo) {
