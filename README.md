@@ -10,13 +10,13 @@ $ npm install chare -g
 
 ### Usage
 ```
-$ chare init init <template-name> <project-name>
+$ chare init <template-name> <project-name>
 ```
 
 Example:
 
 ```
-$ vue init vue-webpack my-project
+$ chare init vue-webpack my-project
 ```
 
 The above command pulls the template from [waka-templates/vue-webpack](https://github.com/waka-templates/vue-webpack), prompts for some information, and generates the project at `./my-project/`
