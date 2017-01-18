@@ -16,6 +16,7 @@ program
     .usage("-u your-github-user-name -p your-personal-token")
     .option('-u, --username', 'your github user name')
     .option('-p, --password', 'your personal token')
+    .description(chalk.gray('# Set auth token to get a higher rate limit of api requests:') + '\n\n    https://developer.github.com/v3/auth/#basic-authentication')
     .parse(process.argv);
 
 /**
