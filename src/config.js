@@ -7,6 +7,8 @@
 
 let exec = require('child_process').execSync;
 
+let log = require('./log');
+
 module.exports = function () {
     let userName, userEmail;
 
@@ -14,7 +16,7 @@ module.exports = function () {
         userName = exec('git config --get user.name');
         userEmail = exec('git config --get user.email');
     } catch (e) {
-
+        log.error(`got github config error: ${e.message}`);
     }
 
     userName = userName && JSON.stringify(userName.toString().trim()).slice(1, -1);
