@@ -41,6 +41,7 @@ function help () {
 
 help();
 
+process.on('exit', () => log.tips());
 
 /**
  * save token
