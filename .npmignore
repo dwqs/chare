@@ -12,4 +12,4 @@ npm-debug.log
 .editorconfig
 .eslintrc
 .npmignore
-./src/token.json
+*.json
