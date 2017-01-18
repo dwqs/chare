@@ -40,3 +40,4 @@ jspm_packages
 
 .idea
 public/dist
+./src/token.json

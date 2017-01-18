@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+let program = require('commander');
+let chalk = require('chalk');
+let fs = require('fs');
+let path = require('path');
+let exec = require('child_process').execSync;
+
+let log = require('../src/log');
+
+/**
+ * Usage.
+ */
+
+program
+    .usage("-u your-github-user-name -p your-personal-token")
+    .option('-u, --username', 'your github user name')
+    .option('-p, --password', 'your personal token')
+    .parse(process.argv);
+
+/**
+ * Help.
+ */
+
+program.on('--help', function () {
+    log.tips('  Examples:');
+    log.tips();
+    log.tips(chalk.gray('    # set auth token to get a higher rate limit of api requests'));
+    log.tips("    $ chare token -u your-github-user-name -p your-personal-token");
+    log.tips();
+    log.success('  Check out the documentation for more details:\n');
+    log.tips("      https://developer.github.com/v3/auth/#basic-authentication");
+});
+
+function help () {
+    program.parse(process.argv);
+    if (program.args.length < 2) {
+        return program.help();
+    }
+}
+
+help();
+
+/**
+ * get chare bin path
+ * @return {*}
+ */
+
+function chareBinPath () {
+    try {
+        let binPath = exec('which chare');
+        return binPath;
+    } catch (e) {
+        log.error(`exec which chare error: ${e.message}`);
+    }
+}
+
+/**
+ * save token
+ */
+
+function setToken () {
+    let token = {
+        username: '',
+        password: ''
+    };
+
+    if(program.args[0].length > program.args[1].length){
+        token.username = program.args[1];
+        token.password = program.args[0];
+    } else {
+        token.username = program.args[0];
+        token.password = program.args[1];
+    }
+
+    let binPath = chareBinPath().toString();
+
+    let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
+
+    fs.writeFile(tokenPath, JSON.stringify(token), {encoding: "utf-8"}, (err) => {
+        log.tips();
+        if(err){
+            log.error(err.message);
+        }
+        log.success(`token saved at ${tokenPath}`);
+    })
+}
+
+setToken();

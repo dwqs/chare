@@ -7,5 +7,6 @@ require('commander')
   .usage('<command> [options]')
   .command('init', 'generate a new project from a template')
   .command('list', 'list available official templates')
+  .command('token', 'set auth token to get a higher rate limit of api requests')
   .parse(process.argv)
 

@@ -6,7 +6,8 @@
   "bin": {
     "chare": "bin/chare",
     "chare-init": "bin/chare-init",
-    "chare-list": "bin/chare-list"
+    "chare-list": "bin/chare-list",
+    "chare-token": "bin/chare-token"
   },
   "repository": {
     "type": "git",
