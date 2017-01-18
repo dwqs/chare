@@ -4,9 +4,9 @@ let program = require('commander');
 let chalk = require('chalk');
 let fs = require('fs');
 let path = require('path');
-let exec = require('child_process').execSync;
 
 let log = require('../src/log');
+let utils = require('../src/utils');
 
 /**
  * Usage.
@@ -41,19 +41,6 @@ function help () {
 
 help();
 
-/**
- * get chare bin path
- * @return {*}
- */
-
-function chareBinPath () {
-    try {
-        let binPath = exec('which chare');
-        return binPath;
-    } catch (e) {
-        log.error(`exec which chare error: ${e.message}`);
-    }
-}
 
 /**
  * save token
@@ -73,7 +60,7 @@ function setToken () {
         token.password = program.args[1];
     }
 
-    let binPath = chareBinPath().toString();
+    let binPath = utils.chareBinPath();
 
     let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
 

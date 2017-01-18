@@ -7,6 +7,7 @@
 
 let fs = require('fs');
 let path = require('path');
+let exec = require('child_process').execSync;
 
 let log = require('./log');
 
@@ -33,6 +34,15 @@ module.exports = {
             return isLocal;
         } else {
             return this.isExist(path.normalize(path.join(process.cwd(), tpl)));
+        }
+    },
+
+    chareBinPath(){
+        try {
+            let binPath = exec('which chare');
+            return binPath.toString();
+        } catch (e) {
+            log.error(`exec which chare error: ${e.message}`);
         }
     }
 };
