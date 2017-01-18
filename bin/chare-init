@@ -15,6 +15,7 @@ let checkTpl = require('../src/check-tpl');
 let checkRepos = require('../src/check-repos');
 let generate = require('../src/generate');
 let utils = require('../src/utils');
+let checkVersion = require('../src/check-version');
 
 /**
  * Usage.
@@ -125,8 +126,10 @@ function runTask(){
 
     } else {
         //use official templates
-        let officialTemplate = 'waka-templates/' + template;
-        checkTpl(template,officialTemplate,downloadAndGenerate);
+        checkVersion(() => {
+            let officialTemplate = 'waka-templates/' + template;
+            checkTpl(template,officialTemplate,downloadAndGenerate);
+        });
     }
 }
 

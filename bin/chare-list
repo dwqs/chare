@@ -62,8 +62,9 @@ axios(utils.getAuthInfo(REQUEST_URL)).then((res) => {
         log.error(`     ${res.statusText}`);
     }
 }).catch((err) => {
-    let res = err.response;
     if(err){
+        let res = err.response;
+
         spinner.text = chalk.white('chare cli:fetching templates list failed, error message as follows:');
         spinner.fail();
         log.tips();
