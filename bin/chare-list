@@ -38,7 +38,7 @@ let spinner = ora({
 process.on('exit', () => log.tips());
 
 let config = {
-    url:  'https://api.github.com/users/waka-templates/repos',
+    url:  'https://api.github.com/orgs/waka-templates/repos',
     method: 'get',
     headers: {
         'User-Agent': 'chare-cli'
