@@ -4,7 +4,6 @@ let chalk = require('chalk');
 let ora = require('ora');
 let axios = require('axios');
 let program = require('commander');
-let path = require('path');
 
 let log = require('../src/log');
 let utils = require('../src/utils');
@@ -37,35 +36,13 @@ let spinner = ora({
 
 process.on('exit', () => log.tips());
 
-let config = {
-    url:  'https://api.github.com/orgs/waka-templates/repos',
-    method: 'get',
-    headers: {
-        'User-Agent': 'chare-cli'
-    },
-    auth:{}
-};
-
-/**
- * get token info to basic auth
- */
-
-let binPath = utils.chareBinPath();
-let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
-
-if(utils.isExist(tokenPath)){
-    let authInfo = require(tokenPath);
-    config.auth = authInfo;
-} else {
-    delete config['auth'];
-}
-
-
 /**
  * List repos.
  */
 
-axios(config).then((res) => {
+const REQUEST_URL = 'https://api.github.com/orgs/waka-templates/repos';
+
+axios(utils.getAuthInfo(REQUEST_URL)).then((res) => {
     if (Array.isArray(res.data)) {
         spinner.text = chalk.green('Available official templates:');
         spinner.succeed();
@@ -93,11 +70,11 @@ axios(config).then((res) => {
 
         if(res.status === 403){
             //api rate limit:https://developer.github.com/v3/#rate-limiting
-            log.tips(chalk.red(`     ${res.statusText}: ${res.data.message}\n\ndocumentation: ${res.data.documentation_url}`));
+            log.tips(chalk.red(`     ${res.statusText}: ${res.data.message}\n\n     documentation: ${res.data.documentation_url}`));
             log.tips();
-            log.tips(`Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details`);
+            log.tips(`     Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details.`);
             log.tips();
-            log.tips('documentation: https://developer.github.com/v3/auth/#basic-authentication')
+            log.tips('     documentation: https://developer.github.com/v3/auth/#basic-authentication')
             process.exit(1);
         } else {
             log.error(`     ${res.statusText}: ${res.data.message}`);

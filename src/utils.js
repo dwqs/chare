@@ -44,5 +44,28 @@ module.exports = {
         } catch (e) {
             log.error(`exec which chare error: ${e.message}`);
         }
+    },
+
+    getAuthInfo(url){
+        let config = {
+            url:  url,
+            method: 'get',
+            headers: {
+                'User-Agent': 'chare-cli'
+            },
+            auth:{}
+        };
+
+        let binPath = this.chareBinPath();
+        let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
+
+        if(this.isExist(tokenPath)){
+            let authInfo = require(tokenPath);
+            config.auth = authInfo;
+        } else {
+            delete config['auth'];
+        }
+
+        return config;
     }
 };

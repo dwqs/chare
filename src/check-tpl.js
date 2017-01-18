@@ -8,10 +8,11 @@
 let axios = require('axios');
 let ora = require('ora');
 let chalk = require('chalk');
-let path = require('path');
 
 let utils = require('../src/utils');
 let log = require('./log');
+
+const REQUEST_URL = 'https://api.github.com/orgs/waka-templates/repos';
 
 module.exports = function (template,officialTemplate,done){
     log.tips();
@@ -23,30 +24,7 @@ module.exports = function (template,officialTemplate,done){
         color:"blue"
     }).start();
 
-    let config = {
-        url:  'https://api.github.com/orgs/waka-templates/repos',
-        method: 'get',
-        headers: {
-            'User-Agent': 'chare-cli'
-        },
-        auth:{}
-    };
-
-    /**
-     * get token info to basic auth
-     */
-
-    let binPath = utils.chareBinPath();
-    let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
-
-    if(utils.isExist(tokenPath)){
-        let authInfo = require(tokenPath);
-        config.auth = authInfo;
-    } else {
-        delete config['auth'];
-    }
-
-    axios(config).then((res) => {
+    axios(utils.getAuthInfo(REQUEST_URL)).then((res) => {
         if (Array.isArray(res.data)) {
             let reposName = [];
 
