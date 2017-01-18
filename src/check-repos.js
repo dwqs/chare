@@ -59,9 +59,10 @@ module.exports = function (repo,done){
                 //api rate limit:https://developer.github.com/v3/#rate-limiting
                 log.tips(chalk.red(`     ${res.statusText}: ${res.data.message}\n\ndocumentation: ${res.data.documentation_url}`));
                 log.tips();
-                log.tips(`Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details`);
+                log.tips(`     Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details.`);
                 log.tips();
-                log.tips('documentation: https://developer.github.com/v3/auth/#basic-authentication')
+                log.tips('     documentation: https://developer.github.com/v3/auth/#basic-authentication');
+                process.exit(1);
             } else {
                 log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
                 log.tips();

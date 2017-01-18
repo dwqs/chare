@@ -74,7 +74,7 @@ axios(utils.getAuthInfo(REQUEST_URL)).then((res) => {
             log.tips();
             log.tips(`     Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details.`);
             log.tips();
-            log.tips('     documentation: https://developer.github.com/v3/auth/#basic-authentication')
+            log.tips('     documentation: https://developer.github.com/v3/auth/#basic-authentication');
             process.exit(1);
         } else {
             log.error(`     ${res.statusText}: ${res.data.message}`);
