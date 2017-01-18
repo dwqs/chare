@@ -56,11 +56,11 @@ Instead of a GitHub repo, you can also use a template on your local file system:
 chare init ~/fs/path/to-custom-template my-project
 ```
 
-There is a [guide]((https://github.com/waka-templates/template-simple)) for to writing owner customized template.
+There is a [guide](https://github.com/waka-templates/template-simple) for to writing owner customized template.
 
 ## Note
 
-In [template simple](https://github.com/waka-templates/template-simple), we said that the template has its directory structure like it **must** have a template directory that holds the template files.
+In the [guide](https://github.com/waka-templates/template-simple), we said that the template has its directory structure like it **must** have a template directory that holds the template files.
 
 But the template you used doesn't meet the rules, chare will use the root directory of repo or local template.
 
