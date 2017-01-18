@@ -4,8 +4,10 @@ let chalk = require('chalk');
 let ora = require('ora');
 let axios = require('axios');
 let program = require('commander');
+let path = require('path');
 
 let log = require('../src/log');
+let utils = require('../src/utils');
 
 /**
  * Help.
@@ -35,17 +37,35 @@ let spinner = ora({
 
 process.on('exit', () => log.tips());
 
-/**
- * List repos.
- */
-
-axios({
+let config = {
     url:  'https://api.github.com/users/waka-templates/repos',
     method: 'get',
     headers: {
         'User-Agent': 'chare-cli'
-    }
-}).then((res) => {
+    },
+    auth:{}
+};
+
+/**
+ * get token info to basic auth
+ */
+
+let binPath = utils.chareBinPath();
+let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
+
+if(utils.isExist(tokenPath)){
+    let authInfo = require(tokenPath);
+    config.auth = authInfo;
+} else {
+    delete config['auth'];
+}
+
+
+/**
+ * List repos.
+ */
+
+axios(config).then((res) => {
     if (Array.isArray(res.data)) {
         spinner.text = chalk.green('Available official templates:');
         spinner.succeed();

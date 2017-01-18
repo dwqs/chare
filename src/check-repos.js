@@ -8,7 +8,9 @@
 let axios = require('axios');
 let ora = require('ora');
 let chalk = require('chalk');
+let path = require('path');
 
+let utils = require('../src/utils');
 let log = require('./log');
 
 module.exports = function (repo,done){
@@ -19,13 +21,30 @@ module.exports = function (repo,done){
 
     let repoInfo = repo.split('/');
 
-    axios({
-        url: `https://api.github.com/users/${repoInfo[0]}/repos`,
+    let config = {
+        url:  `https://api.github.com/users/${repoInfo[0]}/repos`,
         method: 'get',
         headers: {
             'User-Agent': 'chare-cli'
-        }
-    }).then((res) => {
+        },
+        auth:{}
+    };
+
+    /**
+     * get token info to basic auth
+     */
+
+    let binPath = utils.chareBinPath();
+    let tokenPath = path.normalize(path.join(binPath,'../../','lib/node_modules/chare/src/token.json'));
+
+    if(utils.isExist(tokenPath)){
+        let authInfo = require(tokenPath);
+        config.auth = authInfo;
+    } else {
+        delete config['auth'];
+    }
+
+    axios(config).then((res) => {
         log.tips();
 
         if(res.status === 200 && Array.isArray(res.data) && res.data.length){
