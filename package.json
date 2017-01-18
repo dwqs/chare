@@ -1,6 +1,6 @@
 {
   "name": "chare",
-  "version": "2.1.7",
+  "version": "2.2.7",
   "description": "A simple CLI scaffolding for front-end projects.",
   "preferGlobal": true,
   "bin": {
