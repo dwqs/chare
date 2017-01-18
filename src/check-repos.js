@@ -56,11 +56,21 @@ module.exports = function (repo,done){
         if(err){
             oraer.text = chalk.white(`chare cli:checking template ${repo} failed from github.com, error message as follows:`);
             oraer.fail();
+            log.tips();
 
-            log.tips();
-            log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
-            log.tips();
-            log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+            if(res.status === 403){
+                //api rate limit:https://developer.github.com/v3/#rate-limiting
+                log.tips(chalk.red(`     ${res.statusText}: ${res.data.message}\n\ndocumentation: ${res.data.documentation_url}`));
+                log.tips();
+                log.tips(`Please set auth token to get a higher rate limit by ${chalk.blue('chare token')}. Check out the documentation for more details`);
+                log.tips();
+                log.tips('documentation: https://developer.github.com/v3/auth/#basic-authentication')
+            } else {
+                log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
+                log.tips();
+                log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+            }
+
             process.exit(1);
         }
     });
