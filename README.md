@@ -1,4 +1,4 @@
-#### [中文README](https://github.com/chare/chare/blob/master/README_zh.md)
+#### [中文README](https://github.com/dwqs/chare/blob/master/README_zh.md)
 
 ## chare
 A simple CLI scaffolding for front-end projects.
