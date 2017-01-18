@@ -7,6 +7,7 @@
 let Metalsmith = require('metalsmith');
 let ora = require('ora');
 let async = require('async');
+let Handlebars = require('handlebars');
 let render = require('consolidate').handlebars.render;
 let path = require('path');
 let chalk = require('chalk');
