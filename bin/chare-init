@@ -64,6 +64,8 @@ let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
 let hasSlash = template.indexOf('/') > -1;
 
+let officialTemplate = 'waka-templates/' + template;
+
 if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
         type: 'confirm',
@@ -120,14 +122,14 @@ function runTask(){
             checkRepos(template,downloadAndGenerate);
         } else {
             //if template match sda/ and use official templates
-            let officialTemplate = 'waka-templates/' + template;
-            checkTpl(template,officialTemplate,downloadAndGenerate);
+            checkVersion(() => {
+                checkTpl(template,officialTemplate,downloadAndGenerate);
+            });
         }
 
     } else {
         //use official templates
         checkVersion(() => {
-            let officialTemplate = 'waka-templates/' + template;
             checkTpl(template,officialTemplate,downloadAndGenerate);
         });
     }
