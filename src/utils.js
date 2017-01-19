@@ -53,7 +53,7 @@ module.exports = {
             headers: {
                 'User-Agent': 'chare-cli'
             },
-            timeout: 7000,
+            timeout: 10000,
             auth:{}
         };
 

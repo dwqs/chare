@@ -33,7 +33,7 @@ module.exports = function (done) {
     axios({
         url: 'https://registry.npmjs.org/chare',
         method: 'get',
-        timeout: 7000
+        timeout: 10000
     }).then((res) => {
         if(res.status === 200){
             spinner.text = chalk.green('Checking chare cli version success.');
@@ -61,7 +61,12 @@ module.exports = function (done) {
             spinner.fail();
 
             log.tips();
-            log.error(`     ${res.statusText}: ${res.data.message}`);
+
+            if(res){
+                log.error(`     ${res.statusText}: ${res.headers.status}`);
+            } else {
+                log.error(`     ${err.message}`);
+            }
         }
     });
 };
