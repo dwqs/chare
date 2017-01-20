@@ -93,10 +93,13 @@ function template (files,metalsmith,done) {
     let metadata = metalsmith.metadata();
 
     async.each(keys, (file, next) => {
-        let str = files[file].contents.toString();
 
-        // do not attempt to render files that do not have mustaches
-        if (!/{{([^{}]+)}}/g.test(str)) {
+        //judge file is in node_modules directory
+        let inNodeModules = /node_modules/.test(file);
+        let str = inNodeModules ? '' : files[file].contents.toString();
+
+        // do not attempt to render files that do not have mustaches and is in node_modules directory
+        if (inNodeModules || !/{{([^{}]+)}}/g.test(str)) {
             return next();
         }
 
