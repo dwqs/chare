@@ -75,6 +75,7 @@ if(utils.isExist(projectDirPath)){
         name: 'ok'
     }]).then((answers) => {
         if(answers.ok){
+            log.tips();
             runTask();
         }
     });
