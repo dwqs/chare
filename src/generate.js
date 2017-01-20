@@ -46,6 +46,12 @@ module.exports = function (projectName, tmpDir, dest, done) {
         noEscape: true
     });
 
+    ora({
+        text: `generating project ${projectName}...`,
+    }).stopAndPersist(chalk.blue('**'));
+
+    log.tips();
+
     metalsmith
         .use(askQuestions(setting))
         .use(filter(setting))
