@@ -39,10 +39,9 @@ Waka provides some simple official template, if it can't meet your needs, you al
 ### Official Templates
 All official project templates are repos in the [waka-templates organization](https://github.com/waka-templates). When a new template is added to the organization, you will be able to run `chare init <template-name> <project-name>` to use that template. You can also run `chare list` to see all available official templates.
 
-Templates will be provided include:
+Templates be provided include:
 
 * [vue-webpack](https://github.com/waka-templates/vue-webpack) --- A simple template webpack + vuejs setup for projects
-* [zepto-webpack](https://github.com/waka-templates/zepto-webpack) --- A simple template webpack + zepto setup for projects
 * [react-webpack](https://github.com/waka-templates/react-webpack) ---  A simple template webpack + react setup for projects
 
 Additional, you also can check [template simple](https://github.com/chare-templates/template-simple) to write owner customized template.
