@@ -81,4 +81,4 @@ If template directory(which path is like `test/template`) doesn't exist in the r
 
 
 ## Thanks
-To [metalsmith scaffolder](https://github.com/metalsmith/metalsmith/blob/master/examples/project-scaffolder) for the head start.
+To [metalsmith scaffolder](https://github.com/metalsmith/metalsmith/blob/master/examples/project-scaffolder) && [vue-cli](https://github.com/vuejs/vue-cli) for the head start.
