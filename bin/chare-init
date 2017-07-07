@@ -60,7 +60,13 @@ process.on('exit', () => log.tips());
  */
 
 let template = program.args[0];
-let projectDirName = program.args[1] || '.';
+
+let projectDirName = program.args[1];
+
+if(!projectDirName || /^\w:\/?$/.test(projectDirName)) {
+    projectDirName = '.'
+}
+
 let origin = program.args[2];
 let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) : projectDirName;
 let projectDirPath = path.resolve(projectDirName || '.');
@@ -85,6 +91,31 @@ if(utils.isExist(projectDirPath)){
         }
     });
 } else {
+    // convert projectName(eg: xxx/, xxx/sss, /xxx/sss, c:/xxx/sss) to xxx
+    let normalizeName = '';
+    let index = projectName.indexOf('/');
+
+    if(projectDirName.startsWith('/') || /^\w:/.test(projectDirName)) {
+        normalizeName = projectName.substr(index).split('/')[0] || projectName.substr(index).split('/')[1];
+        normalizeName = normalizeName ? normalizeName : 'demo';
+    } else if(index >= 0) {
+        normalizeName = projectName.split('/')[0];
+    }
+
+    if(normalizeName !== projectName){
+        inquirer.prompt([{
+            type: 'confirm',
+            message: `Your new project will be created as ${normalizeName}`,
+            name: 'ok'
+        }]).then((answers) => {
+            if(answers.ok){
+                log.tips();
+                projectName = normalizeName;
+                runTask();
+            }
+            return;
+        });
+    }
     runTask();
 }
 
