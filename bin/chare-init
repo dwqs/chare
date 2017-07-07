@@ -72,6 +72,7 @@ let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) :
 let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
 let hasSlash = template.indexOf('/') > -1;
+let preProjectName = projectName;
 
 if(!hasSlash){
     return program.help();
@@ -102,10 +103,10 @@ if(utils.isExist(projectDirPath)){
         normalizeName = projectName.split('/')[0];
     }
 
-    if(normalizeName !== projectName){
+    if(normalizeName && normalizeName !== projectName){
         inquirer.prompt([{
             type: 'confirm',
-            message: `Your new project will be created as ${normalizeName}`,
+            message: `Your project's name will be created as ${normalizeName}`,
             name: 'ok'
         }]).then((answers) => {
             if(answers.ok){
@@ -213,7 +214,7 @@ function downloadAndGenerate (template){
 
             if(msg){
                 let re = /{{[^{}]+}}/g;
-                log.tips('\n' + msg.replace(re,projectName).split(/\r?\n/g).map(function (line) {
+                log.tips('\n' + msg.replace(re,preProjectName).split(/\r?\n/g).map(function (line) {
                         return '   ' + line
                     }).join('\n'));
             }

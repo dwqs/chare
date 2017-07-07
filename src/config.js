@@ -5,7 +5,7 @@
 
 'use strict';
 
-let shell = require('shelljs');
+let exec = require('child_process').execSync;
 
 let log = require('./log');
 
@@ -13,8 +13,8 @@ module.exports = function () {
     let userName, userEmail;
 
     try {
-        userName = shell.exec('git config --get user.name', {async: false});
-        userEmail = shell.exec('git config --get user.email', {async: false});
+        userName = exec('git config --get user.name');
+        userEmail = exec('git config --get user.email');
     } catch (e) {
         log.error(`got github config error: ${e.message}`);
     }
