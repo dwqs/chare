@@ -9,6 +9,7 @@ let uuidV1 = require('uuid/v1');
 let ora = require('ora');
 let os = require('os');
 let download = require('download-git-repo');
+let exec = require('child_process').execSync;
 
 let log = require('../src/log');
 let checkRepos = require('../src/check-repos');
@@ -22,7 +23,8 @@ let checkVersion = require('../src/check-version');
 
 program
     .usage('<template-name> [project-name]')
-    .option('-c, --clone', 'use git clone');
+    .option('-c, --clone', 'use git clone')
+    .option('-o, --origin', 'set git remote origin');
 
 /**
  * Help.
@@ -32,7 +34,8 @@ program.on('--help', function () {
     log.tips('  Examples:');
     log.tips();
     log.tips(chalk.gray('    # create a new project with an template from github.'));
-    log.tips('    $ chare init vuejs-templates/webpack my-project');
+    log.tips('    $ chare init dwqs/vue-startup my-project');
+    log.tips('    $ chare init dwqs/vue-startup my-project -o git@github.com:xx/xxxx.git');
     log.tips();
 });
 
@@ -58,6 +61,7 @@ process.on('exit', () => log.tips());
 
 let template = program.args[0];
 let projectDirName = program.args[1] || '.';
+let origin = program.args[2];
 let projectName = projectDirName === '.' ? path.relative('../', process.cwd()) : projectDirName;
 let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
@@ -158,6 +162,16 @@ function downloadAndGenerate (template){
         generate(projectName,tmp,projectDirPath, (err,msg = "") => {
             if(err){
                 log.error(`Generated error: ${err.message.trim()}`);
+            }
+
+            // set origin
+            if(origin && /\.git$/.test(origin)){
+                try {
+                    exec(`git remote add origin ${origin}`);
+                    log.tips(chalk.green('${projectName} is related to remote repo: ${origin}'));
+                } catch (e) {
+                    log.tips(chalk.red('set git remote origin faild: ${e.message}'));
+                }
             }
 
             if(msg){
