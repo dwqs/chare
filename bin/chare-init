@@ -162,10 +162,9 @@ function runTask(){
         // convert template path to xxx/xxx
         template = template.split(path.sep).slice(0, 2).join('/');
         // check repo from github.com
-        // checkVersion(() => {
-        //     checkRepos(template,downloadAndGenerate);
-        // })
-        checkRepos(template,downloadAndGenerate);
+        checkVersion(() => {
+            checkRepos(template,downloadAndGenerate);
+        });
     }
 }
 
