@@ -33,6 +33,7 @@
     "commander": "^2.9.0",
     "consolidate": "^0.14.5",
     "download-git-repo": "^0.2.1",
+    "handlebars": "^4.0.6",
     "inquirer": "^2.0.0",
     "metalsmith": "^2.3.0",
     "minimatch": "^3.0.0",
@@ -40,9 +41,9 @@
     "read-metadata": "^1.0.0",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
+    "shelljs": "^0.7.8",
     "uuid": "^3.0.1",
-    "validate-npm-package-name": "^2.2.2",
-    "handlebars": "^4.0.6"
+    "validate-npm-package-name": "^2.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.7.4",

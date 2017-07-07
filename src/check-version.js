@@ -63,10 +63,12 @@ module.exports = function (done) {
             log.tips();
 
             if(res){
-                log.error(`     ${res.statusText}: ${res.headers.status}`);
+                log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
             } else {
-                log.error(`     ${err.message}`);
+                log.tips(chalk.red(`     ${err.message}`));
             }
+            log.tips();
+            done();
         }
     });
 };

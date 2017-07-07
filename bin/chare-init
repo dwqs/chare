@@ -9,6 +9,7 @@ let uuidV1 = require('uuid/v1');
 let ora = require('ora');
 let os = require('os');
 let download = require('download-git-repo');
+let shell = require('shelljs');
 let exec = require('child_process').execSync;
 
 let log = require('../src/log');
@@ -126,10 +127,11 @@ function runTask(){
         log.tips(chalk.red(`Local template ${template} not found. Will check it from github.`));
         log.tips();
 
-        //check repo from github.com
-        checkVersion(() => {
-            checkRepos(template,downloadAndGenerate)
-        })
+        // check repo from github.com
+        // checkVersion(() => {
+        //     checkRepos(template,downloadAndGenerate);
+        // })
+        checkRepos(template,downloadAndGenerate);
     }
 }
 
@@ -167,10 +169,12 @@ function downloadAndGenerate (template){
             // set origin
             if(origin && /\.git$/.test(origin)){
                 try {
-                    exec(`git remote add origin ${origin}`);
-                    log.tips(chalk.green('${projectName} is related to remote repo: ${origin}'));
+                    shell.cd(projectDirPath);
+                    shell.exec(`git init`, { async: false });
+                    shell.exec(`git remote add origin ${origin}`, { async: false });
+                    log.tips(chalk.green(`${projectName} is related to remote repo: ${origin}`));
                 } catch (e) {
-                    log.tips(chalk.red('set git remote origin faild: ${e.message}'));
+                    log.tips(chalk.red(`set git remote origin faild: ${e.message}`));
                 }
             }
 
