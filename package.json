@@ -1,6 +1,6 @@
 {
   "name": "chare",
-  "version": "2.2.13",
+  "version": "3.0.0",
   "description": "A simple CLI scaffolding for front-end projects.",
   "bin": {
     "chare": "bin/chare",
