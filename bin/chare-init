@@ -10,7 +10,6 @@ let ora = require('ora');
 let os = require('os');
 let download = require('download-git-repo');
 let shell = require('shelljs');
-let exec = require('child_process').execSync;
 
 let log = require('../src/log');
 let checkRepos = require('../src/check-repos');
