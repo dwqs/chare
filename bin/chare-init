@@ -115,8 +115,9 @@ if(utils.isExist(projectDirPath)){
             }
             return;
         });
+    } else {
+        runTask();
     }
-    runTask();
 }
 
 function runTask(){
