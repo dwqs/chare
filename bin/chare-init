@@ -126,6 +126,8 @@ function runTask(){
         log.tips(chalk.red(`Local template ${template} not found. Will check it from github.`));
         log.tips();
 
+        // convert template path to xxx/xxx
+        template = template.split(path.sep).slice(0, 2).join('/');
         // check repo from github.com
         // checkVersion(() => {
         //     checkRepos(template,downloadAndGenerate);
