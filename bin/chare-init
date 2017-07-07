@@ -32,8 +32,8 @@ program
 program.on('--help', function () {
     log.tips('  Examples:');
     log.tips();
-    log.tips(chalk.gray('    # create a new project with an official template'));
-    log.tips('    $ chare init vue-webpack my-project');
+    log.tips(chalk.gray('    # create a new project with an template from github.'));
+    log.tips('    $ chare init vuejs-templates/webpack my-project');
     log.tips();
 });
 
@@ -64,7 +64,9 @@ let projectDirPath = path.resolve(projectDirName || '.');
 let clone = program.clone || false;
 let hasSlash = template.indexOf('/') > -1;
 
-let officialTemplate = 'waka-templates/' + template;
+if(!hasSlash){
+    return program.help();
+}
 
 if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
@@ -110,29 +112,21 @@ function runTask(){
             log.tips();
             log.error(`Local template ${template} not found.`);
         }
-    } else if(hasSlash) {
+    } else  {
         let arr = template.split(path.sep);
 
-        //judge the template whether if match 'sdsd/sdasd' or 'sdasd/sdasd/' or 'sda/sdas/**'
-        if((arr.length === 2 && arr[0] && arr[1]) || (arr.length > 2)){
-            log.tips();
-            log.tips(chalk.red(`Local template ${template} not found.`));
-            log.tips();
-
-            //check repo from github.com
-            checkRepos(template,downloadAndGenerate);
-        } else {
-            //if template match sda/ and use official templates
-            checkVersion(() => {
-                checkTpl(template,officialTemplate,downloadAndGenerate);
-            });
+        if(arr.length < 2 || !arr[0] || !arr[1]){
+            return program.help();
         }
 
-    } else {
-        //use official templates
+        log.tips();
+        log.tips(chalk.red(`Local template ${template} not found. Will check it from github.`));
+        log.tips();
+
+        //check repo from github.com
         checkVersion(() => {
-            checkTpl(template,officialTemplate,downloadAndGenerate);
-        });
+            checkRepos(template,downloadAndGenerate)
+        })
     }
 }
 
