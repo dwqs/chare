@@ -4,8 +4,7 @@
 
 'use strict';
 
-require('handlebars');
-
+let Handlebars = require('handlebars');
 let Metalsmith = require('metalsmith');
 let ora = require('ora');
 let async = require('async');
@@ -18,6 +17,19 @@ let getSetting  = require('./settings');
 let ask = require('./ask');
 let filesFilter = require('./files-filter');
 let utils = require('./utils');
+
+// support for vuejs template
+Handlebars.registerHelper('if_eq', function (a, b, opts) {
+    return a === b
+        ? opts.fn(this)
+        : opts.inverse(this)
+});
+
+Handlebars.registerHelper('unless_eq', function (a, b, opts) {
+    return a === b
+        ? opts.inverse(this)
+        : opts.fn(this)
+});
 
 /**
  * Generate a template given a `tmpDir` and `dest`.
