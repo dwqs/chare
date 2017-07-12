@@ -1,4 +1,6 @@
-#### [中文README](https://github.com/dwqs/chare/blob/master/README_zh.md)
+![download](https://img.shields.io/npm/dt/chare.svg) ![npm-version](https://img.shields.io/npm/v/chare.svg) ![license](https://img.shields.io/npm/l/chare.svg)
+
+#### README: [中文](https://github.com/dwqs/chare/blob/master/README_zh.md)
 
 ## chare
 A simple CLI scaffolding for front-end projects.
