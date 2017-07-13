@@ -78,6 +78,18 @@ if(!hasSlash){
     return program.help();
 }
 
+function setOrigin() {
+    // set origin
+    try {
+        shell.cd(projectDirPath);
+        shell.exec(`git init`, { async: false });
+        shell.exec(`git remote add origin ${origin}`, { async: false });
+        log.tips(chalk.green(`${projectName} is related to remote repo: ${origin}`));
+    } catch (e) {
+        log.tips(chalk.red(`set git remote origin faild: ${e.message}`));
+    }
+}
+
 if(utils.isExist(projectDirPath)){
     inquirer.prompt([{
         type: 'confirm',
@@ -135,6 +147,10 @@ function runTask(){
             generate(projectName,templatePath,projectDirPath, (err,msg = "") => {
                 if(err){
                     log.error(`Generated error: ${err.message.trim()}`);
+                }
+
+                if(origin && /\.git$/.test(origin)){
+                    setOrigin();
                 }
 
                 if(msg){
@@ -199,16 +215,8 @@ function downloadAndGenerate (template){
                 log.error(`Generated error: ${err.message.trim()}`);
             }
 
-            // set origin
             if(origin && /\.git$/.test(origin)){
-                try {
-                    shell.cd(projectDirPath);
-                    shell.exec(`git init`, { async: false });
-                    shell.exec(`git remote add origin ${origin}`, { async: false });
-                    log.tips(chalk.green(`${projectName} is related to remote repo: ${origin}`));
-                } catch (e) {
-                    log.tips(chalk.red(`set git remote origin faild: ${e.message}`));
-                }
+                setOrigin();
             }
 
             if(msg){
