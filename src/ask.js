@@ -41,15 +41,30 @@ module.exports = function (prompts, data, done) {
  */
 
 function promptWraper (data, key, prompt, done) {
-
     let msg = prompt.message || prompt.label || key;
+    let promptType = promptMapping[prompt.type] || prompt.type;
+
+    // when condition is not met, skip it
+    if (prompt.when && !data[prompt.when]) {
+        return done();
+    }
+
+    let promptDefault = prompt.default;
+    if (typeof prompt.default === 'function') {
+        promptDefault = function () {
+            return prompt.default.bind(this)(data)
+        }
+    }
 
     inquirer.prompt([{
-        type: promptMapping[prompt.type] || prompt.type,
+        type: promptType,
         name: key,
         message: `${msg}:`,
         choices: prompt.choices || [],
-        default: prompt.default ? prompt.default : '',
+        filter: prompt.filter || function (val) {
+            return val;
+        },
+        default: promptDefault,
         validate: prompt.validate || function () {
             return true;
         }
