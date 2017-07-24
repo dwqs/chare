@@ -6,6 +6,7 @@
 'use strict';
 
 let match = require('minimatch');
+let evaluate = require('./eval');
 
 module.exports = function (filters,files,data,done) {
     if (!filters) {
@@ -23,7 +24,7 @@ module.exports = function (filters,files,data,done) {
             if (match(path, regexp, { dot: true })) {
                 let matchedVal = filters[regexp];
 
-                if(!data[matchedVal]){
+                if(!evaluate(matchedVal,data)){
                     delete files[path];
                 }
             }
