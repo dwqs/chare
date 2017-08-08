@@ -37,7 +37,7 @@ Relate a remote repo:
 $ chare init vuejs-templates/webpack-simple my-project -o git@github.com:xxx/xxx.git
 ```
 
-The above command pulls the template from [vuejs-templates/webpack-simple](https://github.com/vuejs-templates/webpack-simple), prompts for some information, and generates the project at `./my-project/`.
+The above command pulls the template from [here](https://github.com/dwqs/blog/issues/56), prompts for some information, and generates the project at `./my-project/`.
 
 
 ### Command
