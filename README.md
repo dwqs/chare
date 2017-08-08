@@ -37,7 +37,7 @@ Relate a remote repo:
 $ chare init vuejs-templates/webpack-simple my-project -o git@github.com:xxx/xxx.git
 ```
 
-The above command pulls the template from [here](https://github.com/dwqs/blog/issues/56), prompts for some information, and generates the project at `./my-project/`.
+The above command pulls the template from [here](https://github.com/dwqs/blog/issues/56) or [writing custom templates](https://github.com/vuejs/vue-cli#writing-custom-templates-from-scratch), prompts for some information, and generates the project at `./my-project/`.
 
 
 ### Command
@@ -55,7 +55,7 @@ It's unlikely to make everyone happy with the official templates. You can simply
 chare init username/repo my-project
 ```
 
-Where `username/repo` is the GitHub repo shorthand for your fork. But the repo need to meet some conditions. See this: [template-simple](https://github.com/dwqs/template-simple/blob/master/README_en.md)
+Where `username/repo` is the GitHub repo shorthand for your fork. But the repo need to meet some conditions. See this: [here](https://github.com/dwqs/blog/issues/56) or [writing custom templates](https://github.com/vuejs/vue-cli#writing-custom-templates-from-scratch)
 
 ### Local Templates
 
@@ -65,7 +65,7 @@ Instead of a GitHub repo, you can also use a template on your local file system:
 chare init ~/fs/path/to-custom-template my-project
 ```
 
-There is a [guide](https://github.com/dwqs/template-simple/blob/master/README_en.md) for to writing owner customized template.
+There is a [guide](https://github.com/dwqs/blog/issues/56) or [writing custom templates](https://github.com/vuejs/vue-cli#writing-custom-templates-from-scratch) for to writing owner customized template.
 
 ## Thanks
 To [metalsmith scaffolder](https://github.com/metalsmith/metalsmith/blob/master/examples/project-scaffolder) && [vue-cli](https://github.com/vuejs/vue-cli) for the head start.
