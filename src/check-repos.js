@@ -18,34 +18,23 @@ module.exports = function (repo,done){
         color:"blue"
     }).start();
 
-    let repoInfo = repo.split('/');
+    // const REQUEST_URL = `https://api.github.com/users/${repoInfo[0]}/repos`;
+    const URL = `https://github.com/${repo}`;
 
-    const REQUEST_URL = `https://api.github.com/users/${repoInfo[0]}/repos`;
-
-    axios(utils.getAuthInfo(REQUEST_URL)).then((res) => {
+    axios(utils.getAuthInfo(URL)).then((res) => {
         log.tips();
-
-        if(res.status === 200 && Array.isArray(res.data) && res.data.length){
-            let reposName = [];
-
-            res.data.forEach(function (repo) {
-                reposName.push(repo.name);
-            });
-
-            if(reposName.indexOf(repoInfo[1]) > -1){
-                oraer.text = chalk.green('Template checked success from github.com.');
-                oraer.succeed();
-
-                log.tips();
-                done(repo);
-            }
+        if(res.status === 200 ){
+            oraer.text = chalk.green('Template checked success from github.com.');
+            oraer.succeed();
+            log.tips();
+            done(repo);
         } else {
             oraer.stop();
 
             log.tips();
             log.tips(chalk.red(`Template checked fail: ${repo} not found on github.com.`));
             log.tips();
-            log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+            log.tips(`Please check the repo's url(${chalk.blue(URL)}) is available.`);
             process.exit(1);
         }
     }).catch((err) => {
@@ -68,7 +57,7 @@ module.exports = function (repo,done){
                 if(res){
                     log.tips(chalk.red(`     ${res.statusText}: ${res.headers.status}`));
                     log.tips();
-                    log.tips(`Please check all available official templates by ${chalk.blue('chare list')} in terminal.`);
+                    log.tips(`Please check the repo's url(${chalk.blue(URL)}) is available.`);
                 } else {
                     log.error(`     ${err.message}`);
                 }
